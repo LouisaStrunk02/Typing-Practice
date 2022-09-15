@@ -41,9 +41,10 @@ body {
   width: 50%;
 }
 
-.main__textfield {
+.main__textarea {
   height: 50%;
   width: 70%;
+  resize: none;
   position: relative;
   margin: 0% 15%;
   background-color: rgb(240, 250, 250);
