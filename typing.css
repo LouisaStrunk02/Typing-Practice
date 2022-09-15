@@ -23,11 +23,11 @@ body {
 }
 
 .main__header {
-  font-size: 50px;
+  font-size: 400%;
 }
 
 .main__input {
-  font-size: 25px;
+  font-size: 200%;
   height: 5%;
   width: 30%;
   margin: 35%;
@@ -36,7 +36,7 @@ body {
 }
 
 .main__inputfield {
-  margin-left: 10px;
+  margin-left: 3%;
   height: 30%;
   width: 50%;
 }
@@ -80,14 +80,14 @@ body {
 }
 
 .stats__values {
-  margin-top: 0px;
-  height: 10px;
+  margin-top: 0;
+  height: 1%;
 }
 
 summary {
   position: relative;
   left: 20%;
-  padding: 4px;
+  padding: 1%;
   width: 60%;
 
   background-color: #cecfcf;
@@ -102,13 +102,13 @@ summary {
   left: 15%;
   width: 70%;
 
-  font-size: 12px;
+  font-size: 75%;
   text-align: left;
 
   background-color: #122f5e;
   box-shadow: 2px 2px 2px #081427;
   color: azure;
   border: 0.5px dashed black;
-  padding: 1px 10px;
+  padding: 0.2% 1%;
   margin: 0;
 }
