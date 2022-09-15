@@ -6,10 +6,12 @@
     <title>Typing Practice</title>
   </head>
 
-  <body>
+  <body onload="getFirstText()">
     <div class="main">
       <h1 class="main__header">Typing Practice</h1>
-      <div class="main__input">Text Length:<input class="main__inputfield" placeholder="Text length" type="number"></div> 
+      <div class="main__input">Text Length:<input onkeypress="hitEnter(event)" id="textLength" class="main__inputfield" placeholder="Text length(max. 30)" type="number">
+        <div class="input__error"></div>
+      </div> 
       <textarea readonly class="main__textarea"></textarea>
       <button class="main__button">Reset Run</button>
       <button onclick="getRandomWords()" class="main__button">new Text</button>
