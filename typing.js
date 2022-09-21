@@ -1,7 +1,10 @@
 body = document.getElementsByTagName("body")[0];
 restText = document.querySelector(".main__textarea--rest");
 errorMessage = document.querySelector(".input__error");
+
 incorrectKey = false;
+pressedEnter = false;
+
 textLength = 10;
 const MAXWORDS = 30;
 const MINWORDS = 1;
@@ -25,10 +28,12 @@ async function getRandomText() {
 }
 
 function hitEnter(event) {
-  if (event.key === "Enter") {
+  if (event.key === "Enter" && !pressedEnter) {
     getRandomWords();
+    pressedEnter = true;
   }
   else {
+    pressedEnter = false;
     return;
   }
 }
@@ -46,8 +51,8 @@ async function getRandomWords() {
     current.innerHTML = "";
   }
   else {
-    const corrects = document.querySelectorAll('.main__textarea--correct');
-    const incorrects = document.querySelectorAll('.main__textarea--incorrect');
+    var corrects = document.querySelectorAll('.main__textarea--correct');
+    var incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
     current.remove();
 
@@ -93,8 +98,8 @@ body.addEventListener("keydown", function checkKey(event) {
     }
 
     if (restText.textContent == 0 && current.textContent == 0) {
-      const corrects = document.querySelectorAll('.main__textarea--correct');
-      const incorrects = document.querySelectorAll('.main__textarea--incorrect');
+      var corrects = document.querySelectorAll('.main__textarea--correct');
+      var incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
       current.remove();
 
@@ -112,8 +117,8 @@ body.addEventListener("keydown", function checkKey(event) {
 })
 
 function resetRun() {
-  const corrects = document.querySelectorAll('.main__textarea--correct');
-  const incorrects = document.querySelectorAll('.main__textarea--incorrect');
+  var corrects = document.querySelectorAll('.main__textarea--correct');
+  var incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
   current.remove();
 
