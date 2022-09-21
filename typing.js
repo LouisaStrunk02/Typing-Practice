@@ -91,6 +91,23 @@ body.addEventListener("keydown", function checkKey(event) {
       textarea[0].insertBefore(current, restText);
       incorrectKey = false;
     }
+
+    if (restText.textContent == 0 && current.textContent == 0) {
+      const corrects = document.querySelectorAll('.main__textarea--correct');
+      const incorrects = document.querySelectorAll('.main__textarea--incorrect');
+
+      current.remove();
+
+      corrects.forEach(correctKey => {
+        correctKey.remove();
+      });
+
+      incorrects.forEach(incorrectKey => {
+        incorrectKey.remove();
+      });
+
+      getRandomText();
+    }
   }
 })
 
