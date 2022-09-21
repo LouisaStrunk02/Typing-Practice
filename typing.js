@@ -64,28 +64,33 @@ async function getRandomWords() {
 }
 
 body.addEventListener("keydown", function checkKey(event) {
+  if (document.getElementById("input") === document.activeElement) {
+    event.stopPropagation();
+  }
+  else {
 
-  if (event.key == current.textContent[0] && !incorrectKey) {
-    current.className = "main__textarea--correct";
-    current = document.createElement("SPAN");
-    current.className = "main__textarea--current";
-    current.textContent = restText.textContent[0];
-    restText.textContent = restText.textContent.slice(1);
-    textarea = document.getElementsByClassName("main__textarea");
-    textarea[0].insertBefore(current, restText);
-  }
-  else if (event.key != current.textContent[0] && !incorrectKey) {
-    incorrectKey = true;
-  }
-  else if (event.key == current.textContent[0] && incorrectKey) {
-    current.className = "main__textarea--incorrect";
-    current = document.createElement("SPAN");
-    current.className = "main__textarea--current";
-    current.textContent = restText.textContent[0];
-    restText.textContent = restText.textContent.slice(1);
-    textarea = document.getElementsByClassName("main__textarea");
-    textarea[0].insertBefore(current, restText);
-    incorrectKey = false;
+    if (event.key == current.textContent[0] && !incorrectKey) {
+      current.className = "main__textarea--correct";
+      current = document.createElement("SPAN");
+      current.className = "main__textarea--current";
+      current.textContent = restText.textContent[0];
+      restText.textContent = restText.textContent.slice(1);
+      textarea = document.getElementsByClassName("main__textarea");
+      textarea[0].insertBefore(current, restText);
+    }
+    else if (event.key != current.textContent[0] && !incorrectKey) {
+      incorrectKey = true;
+    }
+    else if (event.key == current.textContent[0] && incorrectKey) {
+      current.className = "main__textarea--incorrect";
+      current = document.createElement("SPAN");
+      current.className = "main__textarea--current";
+      current.textContent = restText.textContent[0];
+      restText.textContent = restText.textContent.slice(1);
+      textarea = document.getElementsByClassName("main__textarea");
+      textarea[0].insertBefore(current, restText);
+      incorrectKey = false;
+    }
   }
 })
 
