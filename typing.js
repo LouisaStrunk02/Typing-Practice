@@ -6,6 +6,9 @@ incorrectKey = false;
 pressedEnter = false;
 newTextGenerated = false;
 
+lastSetTime = 0
+todaysTime = 0;
+totalTime = 0;
 textLength = 10;
 const MAXWORDS = 30;
 const MINWORDS = 1;
@@ -113,8 +116,13 @@ body.addEventListener("keydown", function checkKey(event) {
 
     if (restText.textContent == 0 && current.textContent == 0) {
       endDate = new Date();
-      totalTime = (endDate - startDate) / 1000;
-      document.getElementById("lastSetTime").innerHTML = "Time: " + totalTime + " seconds";
+      lastSetTime = (endDate - startDate) / 1000;
+      lastSetTime = Math.round((lastSetTime + Number.EPSILON) * 100) / 100;
+      document.getElementById("lastSetTime").innerHTML = "Time: " + lastSetTime + " seconds";
+      todaysTime += lastSetTime;
+      document.getElementById("todaysTime").innerHTML = "Time: " + todaysTime + " seconds";
+      totalTime += lastSetTime;
+      document.getElementById("totalTime").innerHTML = "Time: " + totalTime + " seconds";
 
       newTextGenerated = false;
       var corrects = document.querySelectorAll('.main__textarea--correct');
