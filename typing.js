@@ -4,6 +4,7 @@ errorMessage = document.querySelector(".input__error");
 
 incorrectKey = false;
 pressedEnter = false;
+newTextGenerated = false;
 
 textLength = 10;
 const MAXWORDS = 30;
@@ -25,6 +26,8 @@ async function getRandomText() {
   incorrectKey = false;
   document.getElementById("newText").blur();
   document.getElementById("input").blur();
+  startTimer = true;
+  newTextGenerated = true;
 }
 
 function hitEnter(event) {
@@ -68,12 +71,23 @@ async function getRandomWords() {
   }
 }
 
+function setTimer() {
+  if (startTimer == true) {
+    tempDate = new Date();
+    startDate = tempDate;
+    startTimer = false;
+  }
+}
+
 body.addEventListener("keydown", function checkKey(event) {
   if (document.getElementById("input") === document.activeElement) {
     event.stopPropagation();
   }
+  else if (newTextGenerated == false) {
+    return;
+  }
   else {
-
+    setTimer();
     if (event.key == current.textContent[0] && !incorrectKey) {
       current.className = "main__textarea--correct";
       current = document.createElement("SPAN");
@@ -98,6 +112,11 @@ body.addEventListener("keydown", function checkKey(event) {
     }
 
     if (restText.textContent == 0 && current.textContent == 0) {
+      endDate = new Date();
+      totalTime = (endDate - startDate) / 1000;
+      document.getElementById("lastSetTime").innerHTML = "Time: " + totalTime + " seconds";
+
+      newTextGenerated = false;
       var corrects = document.querySelectorAll('.main__textarea--correct');
       var incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
