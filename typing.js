@@ -13,6 +13,7 @@ todaysTime = 0;
 totalTime = 0;
 lastSetCPM = 0;
 todaysCPM = 0;
+todaysTypedChars = 0;
 
 textLength = 10;
 const MAXWORDS = 30;
@@ -148,6 +149,10 @@ body.addEventListener("keydown", function checkKey(event) {
       numberOfIncorrectKeys = 0;
 
       document.getElementById("todaysSets").innerHTML = "Sets: " + numberOfTexts;
+
+      //chars typed today
+      todaysTypedChars += charsInText;
+      document.getElementById("todaysChars").innerHTML = "Chars typed: " + todaysTypedChars;
 
       var corrects = document.querySelectorAll('.main__textarea--correct');
       var incorrects = document.querySelectorAll('.main__textarea--incorrect');
