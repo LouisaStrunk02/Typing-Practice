@@ -28,12 +28,7 @@ const MINWORDS = 1;
 window.addEventListener("load", function showStats() {
   checkIfNewDay();
   if (newDay) {
-    localStorage.todaysNumberOfTexts = 0;
-    localStorage.todaysTime = 0;
-    localStorage.todaysCPM = 0;
-    localStorage.todaysWrongChars = 0;
-    localStorage.todaysTypedChars = 0;
-
+    resetTodaysData();
     newDay = false;
   }
 
@@ -228,12 +223,14 @@ function getTime() {
 function getCharsPerMinute() {
   lastSetCPM = Math.round((charsInText * (60 / lastSetTime)) + Number.EPSILON);
   document.getElementById("lastSetCPM").innerHTML = "CPM: " + lastSetCPM + "chars/minute";
-  weightOfLastSetCPM = lastSetCPM * (1 / todaysNumberOfTexts);
-  weightOfTodaysCPM = todaysCPM * (1 - 1 / todaysNumberOfTexts);
-  todaysCPM = Math.round(weightOfLastSetCPM + weightOfTodaysCPM + Number.EPSILON);
+  todaysWeightOfLastSetCPM = lastSetCPM * (1 / todaysNumberOfTexts);
+  todaysWeightOfTodaysCPM = todaysCPM * (1 - 1 / todaysNumberOfTexts);
+  todaysCPM = Math.round(todaysWeightOfLastSetCPM + todaysWeightOfTodaysCPM + Number.EPSILON);
   localStorage.setItem("todaysCPM", todaysCPM);
   document.getElementById("todaysCPM").innerHTML = "CPM: " + todaysCPM + "chars/minute";
-  totalCPM = Math.round(weightOfLastSetCPM + weightOfTodaysCPM + Number.EPSILON);
+  totalWeightOfLastSetCPM = lastSetCPM * (1 / totalNumberOfTexts);
+  totalWeightOfTodaysCPM = totalCPM * (1 - 1 / totalNumberOfTexts);
+  totalCPM = Math.round(totalWeightOfLastSetCPM + totalWeightOfTodaysCPM + Number.EPSILON);
   localStorage.setItem("totalCPM", totalCPM);
   document.getElementById("totalCPM").innerHTML = "CPM: " + totalCPM + "chars/minute";
 }
@@ -242,12 +239,14 @@ function getWrongChars() {
   lastSetWrongChars = Math.round(((numberOfIncorrectKeys / charsInText * 100) + Number.EPSILON) * 10) / 10;
   document.getElementById("lastSetWrongChars").innerHTML = "Wrong Chars: " + lastSetWrongChars + "%";
   numberOfIncorrectKeys = 0;
-  weightOfLastSetWrongChars = lastSetWrongChars * (1 / todaysNumberOfTexts);
-  weightOfTodaysWrongChars = todaysWrongChars * (1 - 1 / todaysNumberOfTexts);
-  todaysWrongChars = Math.round((weightOfLastSetWrongChars + weightOfTodaysWrongChars + Number.EPSILON) * 100) / 100;
+  todaysWeightOfLastSetWrongChars = lastSetWrongChars * (1 / todaysNumberOfTexts);
+  todaysWeightOfTodaysWrongChars = todaysWrongChars * (1 - 1 / todaysNumberOfTexts);
+  todaysWrongChars = Math.round((todaysWeightOfLastSetWrongChars + todaysWeightOfTodaysWrongChars + Number.EPSILON) * 100) / 100;
   localStorage.setItem("todaysWrongChars", todaysWrongChars);
   document.getElementById("todaysWrongChars").innerHTML = "Mistake ratio: " + todaysWrongChars + "%";
-  totalWrongChars = Math.round((weightOfLastSetWrongChars + weightOfTodaysWrongChars + Number.EPSILON) * 100) / 100;
+  totalWeightOfLastSetWrongChars = lastSetWrongChars * (1 / totalNumberOfTexts);
+  totalWeightOfTodaysWrongChars = totalWrongChars * (1 - 1 / totalNumberOfTexts);
+  totalWrongChars = Math.round((totalWeightOfLastSetWrongChars + totalWeightOfTodaysWrongChars + Number.EPSILON) * 100) / 100;
   localStorage.setItem("totalWrongChars", totalWrongChars);
   document.getElementById("totalWrongChars").innerHTML = "Mistake ratio: " + totalWrongChars + "%";
 }
@@ -271,7 +270,7 @@ function checkIfNewDay() {
     newDay = true;
   }
   else {
-    console.log("<");
+    console.log("=");
   }
   lastDay = currentDay;
   localStorage.setItem("lastDay", lastDay);
@@ -280,3 +279,22 @@ function checkIfNewDay() {
   lastYear = currentYear;
   localStorage.setItem("lastYear", lastYear);
 }
+
+function resetTodaysData() {
+  localStorage.todaysNumberOfTexts = 0;
+  localStorage.todaysTime = 0;
+  localStorage.todaysCPM = 0;
+  localStorage.todaysWrongChars = 0;
+  localStorage.todaysTypedChars = 0;
+}
+
+function resetTotalData() {
+  localStorage.totalNumberOfTexts = 0;
+  localStorage.totalTime = 0;
+  localStorage.totalCPM = 0;
+  localStorage.totalWrongChars = 0;
+  localStorage.totalTypedChars = 0;
+}
+
+// resetTodaysData();
+// resetTotalData();
