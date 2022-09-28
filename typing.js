@@ -13,6 +13,8 @@ todaysTime = 0;
 totalTime = 0;
 lastSetCPM = 0;
 todaysCPM = 0;
+lastSetWrongChars = 0;
+todaysWrongChars = 0;
 todaysTypedChars = 0;
 
 textLength = 10;
@@ -144,13 +146,16 @@ body.addEventListener("keydown", function checkKey(event) {
       // totalCPM = weightOfLastSetCPM + weightOfTodaysCPM;
       // document.getElementById("todaysCPM").innerHTML = "CPM: " + totalCPM + "chars/minute";
 
-      wrongChars = Math.round(((numberOfIncorrectKeys / charsInText * 100) + Number.EPSILON) * 10) / 10;
-      document.getElementById("lastSetWrongChars").innerHTML = "Wrong Chars: " + wrongChars + "%";
+      lastSetWrongChars = Math.round(((numberOfIncorrectKeys / charsInText * 100) + Number.EPSILON) * 10) / 10;
+      document.getElementById("lastSetWrongChars").innerHTML = "Wrong Chars: " + lastSetWrongChars + "%";
       numberOfIncorrectKeys = 0;
+      weightOfLastSetWrongChars = lastSetWrongChars * (1 / numberOfTexts);
+      weightOfTodaysWrongChars = todaysWrongChars * (1 - 1 / numberOfTexts);
+      todaysWrongChars = Math.round((weightOfLastSetWrongChars + weightOfTodaysWrongChars + Number.EPSILON) * 100) / 100;
+      document.getElementById("todaysWrongChars").innerHTML = "Mistake ratio: " + todaysWrongChars + "%";
 
       document.getElementById("todaysSets").innerHTML = "Sets: " + numberOfTexts;
 
-      //chars typed today
       todaysTypedChars += charsInText;
       document.getElementById("todaysChars").innerHTML = "Chars typed: " + todaysTypedChars;
 
