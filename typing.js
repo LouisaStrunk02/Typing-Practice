@@ -147,6 +147,8 @@ body.addEventListener("keydown", function checkKey(event) {
       document.getElementById("lastSetWrongChars").innerHTML = "Wrong Chars: " + wrongChars + "%";
       numberOfIncorrectKeys = 0;
 
+      document.getElementById("todaysSets").innerHTML = "Sets: " + numberOfTexts;
+
       var corrects = document.querySelectorAll('.main__textarea--correct');
       var incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
