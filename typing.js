@@ -286,15 +286,32 @@ function resetTodaysData() {
   localStorage.todaysCPM = 0;
   localStorage.todaysWrongChars = 0;
   localStorage.todaysTypedChars = 0;
+
+  document.getElementById("todaysSets").innerHTML = "Sets: " + localStorage.todaysNumberOfTexts;
+  document.getElementById("todaysChars").innerHTML = "Chars typed: " + localStorage.todaysTypedChars;
+  document.getElementById("todaysTime").innerHTML = "Time: " + localStorage.todaysTime;
+  document.getElementById("todaysCPM").innerHTML = "CPM: " + localStorage.todaysCPM + " chars/minute";
+  document.getElementById("todaysWrongChars").innerHTML = "Mistake ratio: " + localStorage.todaysWrongChars + " %";
 }
 
 function resetTotalData() {
+  localStorage.todaysNumberOfTexts = 0;
   localStorage.totalNumberOfTexts = 0;
+  localStorage.todaysTime = 0;
   localStorage.totalTime = 0;
+  localStorage.todaysCPM = 0;
   localStorage.totalCPM = 0;
+  localStorage.todaysWrongChars = 0;
   localStorage.totalWrongChars = 0;
-  localStorage.totalTypedChars = 0;
-}
+  localStorage.todaysTypedChars = 0;
 
-// resetTodaysData();
-// resetTotalData();
+  document.getElementById("todaysSets").innerHTML = "Sets: " + localStorage.todaysNumberOfTexts;
+  document.getElementById("totalSets").innerHTML = "Sets: " + localStorage.totalNumberOfTexts;
+  document.getElementById("todaysChars").innerHTML = "Chars typed: " + localStorage.todaysTypedChars;
+  document.getElementById("todaysTime").innerHTML = "Time: " + localStorage.todaysTime;
+  document.getElementById("totalTime").innerHTML = "Time: " + localStorage.totalTime;
+  document.getElementById("todaysCPM").innerHTML = "CPM: " + localStorage.todaysCPM + " chars/minute";
+  document.getElementById("totalCPM").innerHTML = "CPM: " + localStorage.totalCPM + " chars/minute";
+  document.getElementById("todaysWrongChars").innerHTML = "Mistake ratio: " + localStorage.todaysWrongChars + " %";
+  document.getElementById("totalWrongChars").innerHTML = "Mistake ratio: " + localStorage.totalWrongChars + " %";
+}
