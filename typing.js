@@ -6,7 +6,8 @@ incorrectKey = false;
 pressedEnter = false;
 newTextGenerated = false;
 
-newTexts = 0;
+numberOfIncorrectKeys = 0;
+numberOfTexts = 0;
 lastSetTime = 0
 todaysTime = 0;
 totalTime = 0;
@@ -109,6 +110,7 @@ body.addEventListener("keydown", function checkKey(event) {
       incorrectKey = true;
     }
     else if (event.key == current.textContent[0] && incorrectKey) {
+      numberOfIncorrectKeys += 1;
       current.className = "main__textarea--incorrect";
       current = document.createElement("SPAN");
       current.className = "main__textarea--current";
@@ -122,24 +124,28 @@ body.addEventListener("keydown", function checkKey(event) {
     if (restText.textContent == 0 && current.textContent == 0) {
       newTextGenerated = false;
 
-      newTexts += 1;
+      numberOfTexts += 1;
 
       endDate = new Date();
-      lastSetTime = Math.round(((endDate - startDate) / 1000 + Number.EPSILON) * 100 / 100);
+      lastSetTime = Math.round(((endDate - startDate) / 1000 + Number.EPSILON) * 100) / 100;
       document.getElementById("lastSetTime").innerHTML = "Time: " + lastSetTime + " seconds";
-      todaysTime += Math.round((lastSetTime + Number.EPSILON) * 100 / 100);
+      todaysTime += Math.round((lastSetTime + Number.EPSILON) * 100) / 100;
       document.getElementById("todaysTime").innerHTML = "Time: " + todaysTime + " seconds";
       // totalTime += lastSetTime;
       // document.getElementById("totalTime").innerHTML = "Time: " + totalTime + " seconds";
 
       lastSetCPM = Math.round((charsInText * (60 / lastSetTime)) + Number.EPSILON);
       document.getElementById("lastSetCPM").innerHTML = "CPM: " + lastSetCPM + "chars/minute";
-      weightOfLastSetCPM = lastSetCPM * (1 / newTexts);
-      weightOfTodaysCPM = todaysCPM * (1 - 1 / newTexts);
+      weightOfLastSetCPM = lastSetCPM * (1 / numberOfTexts);
+      weightOfTodaysCPM = todaysCPM * (1 - 1 / numberOfTexts);
       todaysCPM = Math.round(weightOfLastSetCPM + weightOfTodaysCPM + Number.EPSILON);
       document.getElementById("todaysCPM").innerHTML = "CPM: " + todaysCPM + "chars/minute";
       // totalCPM = weightOfLastSetCPM + weightOfTodaysCPM;
       // document.getElementById("todaysCPM").innerHTML = "CPM: " + totalCPM + "chars/minute";
+
+      wrongChars = Math.round(((numberOfIncorrectKeys / charsInText * 100) + Number.EPSILON) * 10) / 10;
+      document.getElementById("lastSetWrongChars").innerHTML = "Wrong Chars: " + wrongChars + "%";
+      numberOfIncorrectKeys = 0;
 
       var corrects = document.querySelectorAll('.main__textarea--correct');
       var incorrects = document.querySelectorAll('.main__textarea--incorrect');
