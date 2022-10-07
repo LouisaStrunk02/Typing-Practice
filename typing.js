@@ -2,36 +2,63 @@ const body = document.getElementsByTagName("body")[0];
 var restText = document.querySelector(".main__textarea--rest");
 var errorMessage = document.querySelector(".input__error");
 
+var moreDetails = document.getElementsByClassName("stats__moreDetails")[0];
+// var moreDetails = document.querySelector(".letters");
+
 var incorrectKey = false;
 var pressedEnter = false;
 var newTextGenerated = false;
 var newDay = false;
 
-// class Letter {
-//   constructor(letter, occurenceOfLetter, firstTryCorrects) {
-//     this.letter = letter;
-//     this.occurenceOfLetter = occurenceOfLetter;
-//     this.firstTryCorrects = firstTryCorrects;
-//   }
-// }
-
 var numberOfIncorrectKeys = 0;
-var todaysNumberOfTexts = parseInt(localStorage.getItem("todaysNumberOfTexts"));
-var totalNumberOfTexts = parseInt(localStorage.getItem("totalNumberOfTexts"));
+var todaysNumberOfTexts = parseInt(localStorage.getItem("todaysNumberOfTexts") ?? 0);
+var totalNumberOfTexts = parseInt(localStorage.getItem("totalNumberOfTexts") ?? 0);
 var lastSetTime = 0
-var todaysTime = parseInt(localStorage.getItem("todaysTime"));
-var totalTime = parseInt(localStorage.getItem("totalTime"));
+var todaysTime = parseInt(localStorage.getItem("todaysTime") ?? 0);
+var totalTime = parseInt(localStorage.getItem("totalTime") ?? 0);
 var lastSetCPM = 0;
-var todaysCPM = parseInt(localStorage.getItem("todaysCPM"));
-var totalCPM = parseInt(localStorage.getItem("totalCPM"));
+var todaysCPM = parseInt(localStorage.getItem("todaysCPM") ?? 0);
+var totalCPM = parseInt(localStorage.getItem("totalCPM") ?? 0);
 var lastSetWrongChars = 0;
-var todaysWrongChars = parseInt(localStorage.getItem("todaysWrongChars"));
-var totalWrongChars = parseInt(localStorage.getItem("totalWrongChars"));
-var todaysTypedChars = parseInt(localStorage.getItem("todaysTypedChars"));
+var todaysWrongChars = parseInt(localStorage.getItem("todaysWrongChars") ?? 0);
+var totalWrongChars = parseInt(localStorage.getItem("totalWrongChars") ?? 0);
+var todaysTypedChars = parseInt(localStorage.getItem("todaysTypedChars") ?? 0);
 
 var textLength = 10;
 const MAXWORDS = 30;
 const MINWORDS = 1;
+
+var occurenceOfLetters = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+var absoluteCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+var relativeCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+
+// var occurenceOfLetters = JSON.parse(localStorage.getItem("occurenceOfLetters") ?? 0);
+// var absoluteCorrects = JSON.parse(localStorage.getItem("absoluteLetters") ?? 0);
+// var relativeCorrects = JSON.parse(localStorage.getItem("relativeLetterss") ?? 0);
+
+// if (localStorage.getItem("occurenceOfLetters") == null) {
+//   var occurenceOfLetters = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+// }
+// else if (localStorage.getItem("occurenceOfLetters") != null) {
+//   var occurenceOfLetters = JSON.parse(localStorage.getItem("occurenceOfLetters"));
+// }
+// else if (localStorage.getItem("absoluteCorrects") == null) {
+//   var absoluteCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+// }
+// else if (localStorage.getItem("absoluteCorrects") != null) {
+//   var absoluteCorrects = JSON.parse(localStorage.getItem("absoluteLetters"));
+// }
+// else if (localStorage.getItem("relativeCorrects") == null) {
+//   var relativeCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+// }
+// else if (localStorage.getItem("relaticeCorrects") != null) {
+//   var relativeCorrects = JSON.parse(localStorage.getItem("relativeLetterss"));
+// }
+
+var strRelativeCorrects = JSON.stringify(relativeCorrects);
+var arrRelativeCorrects = strRelativeCorrects.split(",").join("%" + "<br />").replaceAll(`"`, ``).replaceAll(`{`, ``).replaceAll(`}`, ``);
+moreDetails.innerHTML = arrRelativeCorrects;
+// moreDetails.innerHTML = localStorage.getItem("absoluteLettersArray");
 
 window.addEventListener("load", function showStats() {
   checkIfNewDay();
@@ -70,9 +97,6 @@ async function getRandomText() {
   document.getElementById("input").blur();
   startTimer = true;
   newTextGenerated = true;
-
-  // letters = [charsInText];
-  // i = 0;
 }
 
 function hitEnter(event) {
@@ -134,6 +158,16 @@ body.addEventListener("keydown", function checkKey(event) {
   else {
     setTimer();
     if (event.key == current.textContent[0] && !incorrectKey) {
+      occurenceOfLetters[current.innerHTML] += 1;
+      // localStorage.setItem("occuranceOfLetters", JSON.stringify(occurenceOfLetters));
+      absoluteCorrects[current.innerHTML] += 1;
+      // localStorage.setItem("absoluteCorrects", JSON.stringify(absoluteCorrects));
+      relativeCorrects[current.innerHTML] = Math.round((absoluteCorrects[current.innerHTML] / occurenceOfLetters[current.innerHTML]) * 100);;
+      // localStorage.setItem("relativeCorrects", JSON.stringify(relativeCorrects));
+      strRelativeCorrects = JSON.stringify(relativeCorrects);
+      arrRelativeCorrects = strRelativeCorrects.split(",").join("%" + "<br />").replaceAll(`"`, ``).replaceAll(`{`, ``).replaceAll(`}`, ``);
+      // localStorage.setItem("arrRelativeCorrects", arrRelativeCorrects);
+      moreDetails.innerHTML = arrRelativeCorrects;
       current.className = "main__textarea--correct";
       current = document.createElement("SPAN");
       current.className = "main__textarea--current";
@@ -141,17 +175,20 @@ body.addEventListener("keydown", function checkKey(event) {
       restText.textContent = restText.textContent.slice(1);
       textarea = document.getElementsByClassName("main__textarea");
       textarea[0].insertBefore(current, restText);
-
-      // letters[i] = new Letter(current.innerHTML, 0, 0);
-      // letters[i].occurenceOfLetter += 1;
-      // letters[i].firstTryCorrects += 1;
-      // console.log(letters[0]);
-      // i += 1;
     }
     else if (event.key != current.textContent[0] && !incorrectKey) {
       incorrectKey = true;
     }
     else if (event.key == current.textContent[0] && incorrectKey) {
+
+      occurenceOfLetters[current.innerHTML] += 1;
+      // localStorage.setItem("occurendeOfLetters", JSON.stringify(occurenceOfLetters));
+      relativeCorrects[current.innerHTML] = Math.round((absoluteCorrects[current.innerHTML] / occurenceOfLetters[current.innerHTML]) * 100);
+      // localStorage.setItem("relativeCorrects", JSON.stringify(relativeCorrects));
+      strRelativeCorrects = JSON.stringify(relativeCorrects);
+      arrRelativeCorrects = strRelativeCorrects.split(",").join("%" + "<br />").replaceAll(`"`, ``).replaceAll(`{`, ``).replaceAll(`}`, ``);
+      // localStorage.setItem("arrRelativeCorrects", arrRelativeCorrects);
+      moreDetails.innerHTML = arrRelativeCorrects;
       numberOfIncorrectKeys += 1;
       current.className = "main__textarea--incorrect";
       current = document.createElement("SPAN");
@@ -161,11 +198,6 @@ body.addEventListener("keydown", function checkKey(event) {
       textarea = document.getElementsByClassName("main__textarea");
       textarea[0].insertBefore(current, restText);
       incorrectKey = false;
-
-      // letters[i] = new Letter(current.innerHTML, 0, 0);
-      // letters[i].occurenceOfLetter += 1;
-      // console.log(letters[0]);
-      // i += 1;
     }
 
     if (restText.textContent == 0 && current.textContent == 0) {
@@ -176,16 +208,6 @@ body.addEventListener("keydown", function checkKey(event) {
       getCharsPerMinute();
       getWrongChars();
       getTypedChars();
-
-      // for (let i = 0; i < charsInText; i++) {
-      //   for (let j = i + 1; j < charsInText; j++) {
-      //     if (letters[i].letterLetter == letters[j].letterLetter) {
-      //       letters[i].occurenceOfLetter = letters[i].occurenceOfLetter + letters[j].occurenceOfLetter;
-      //       letters[i].firstTryCorrects = letters[i].firstTryCorrects + letters[j].firstTryCorrects;
-      //       console.log("hi", letters[i].letterLetter, letters[i].occurenceOfLetter, letters[i].firstTryCorrects);
-      //     }
-      //   }
-      // }
 
       var corrects = document.querySelectorAll('.main__textarea--correct');
       var incorrects = document.querySelectorAll('.main__textarea--incorrect');
@@ -324,32 +346,11 @@ function resetTodaysData() {
   document.getElementById("todaysTime").innerHTML = "Time: " + localStorage.todaysTime;
   document.getElementById("todaysCPM").innerHTML = "CPM: " + localStorage.todaysCPM + " chars/minute";
   document.getElementById("todaysWrongChars").innerHTML = "Mistake ratio: " + localStorage.todaysWrongChars + " %";
+
+  location.reload();
 }
 
 function resetAllData() {
-  localStorage.todaysNumberOfTexts = 0;
-  localStorage.totalNumberOfTexts = 0;
-  lastSetTime = 0;
-  localStorage.todaysTime = 0;
-  localStorage.totalTime = 0;
-  lastSetCPM = 0;
-  localStorage.todaysCPM = 0;
-  localStorage.totalCPM = 0;
-  lastSetWrongChars = 0;
-  localStorage.todaysWrongChars = 0;
-  localStorage.totalWrongChars = 0;
-  localStorage.todaysTypedChars = 0;
-
-  document.getElementById("todaysSets").innerHTML = "Sets: " + localStorage.todaysNumberOfTexts;
-  document.getElementById("totalSets").innerHTML = "Sets: " + localStorage.totalNumberOfTexts;
-  document.getElementById("todaysChars").innerHTML = "Chars typed: " + localStorage.todaysTypedChars;
-  document.getElementById("lastSetTime").innerHTML = "Time: " + lastSetTime;
-  document.getElementById("todaysTime").innerHTML = "Time: " + localStorage.todaysTime;
-  document.getElementById("totalTime").innerHTML = "Time: " + localStorage.totalTime;
-  document.getElementById("lastSetCPM").innerHTML = "CPM: " + lastSetCPM;
-  document.getElementById("todaysCPM").innerHTML = "CPM: " + localStorage.todaysCPM + " chars/minute";
-  document.getElementById("totalCPM").innerHTML = "CPM: " + localStorage.totalCPM + " chars/minute";
-  document.getElementById("lastSetWronChars").innerHTML = "Wrong Chars: " + lastSetWrongChars;
-  document.getElementById("todaysWrongChars").innerHTML = "Mistake ratio: " + localStorage.todaysWrongChars + " %";
-  document.getElementById("totalWrongChars").innerHTML = "Mistake ratio: " + localStorage.totalWrongChars + " %";
+  localStorage.clear();
+  location.reload();
 }
