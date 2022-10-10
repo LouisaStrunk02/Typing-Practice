@@ -1,33 +1,33 @@
+import { getWordsFromApi } from "./getWordsFromApi.js";
+
 var textarea = document.querySelector(".main__textarea");
+var inputfield = document.querySelector(".main__inputfield");
 var errorMessage = document.querySelector(".input__error");
+var newTextButton = document.querySelector("#newTextButton");
 
 var textLength = 10;
 const MAXWORDS = 30;
 
-async function getWordsFromApi() {
-  var file = "https://random-word-api.herokuapp.com/word?number=" + textLength;
-  var response = await fetch(file);
-  var words = await response.json();
-  var text = words.join(" ");
+var text = await getWordsFromApi(textLength);
+
+async function getRandomText() {
+  text = await getWordsFromApi(textLength);
   textarea.innerHTML = text;
   errorMessage.innerHTML = "";
 }
 
-async function getFirstText() {
-  getWordsFromApi();
-}
-
-function hitEnter(event) {
+function checkIfEnter(event) {
   if (event.key === "Enter") {
-    getRandomWords();
+    checkTextLength();
+    inputfield.blur();
   }
   else {
     return;
   }
 }
 
-function getRandomWords() {
-  textLength = document.getElementById("textLength").value;
+function checkTextLength() {
+  textLength = inputfield.value;
 
   if (textLength > MAXWORDS) {
     errorMessage.innerHTML = "Max words: 30!";
@@ -38,6 +38,10 @@ function getRandomWords() {
     textarea.innerHTML = "";
   }
   else {
-    getWordsFromApi();
+    getRandomText();
   }
 }
+
+document.addEventListener("load", getRandomText());
+inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
+newTextButton.addEventListener("click", checkTextLength);

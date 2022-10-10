@@ -6,15 +6,15 @@
     <title>Typing Practice</title>
   </head>
 
-  <body onload="getFirstText()">
+  <body>
     <div class="main">
       <h1 class="main__header">Typing Practice</h1>
-      <div class="main__input">Text Length:<input onkeypress="hitEnter(event)" id="textLength" class="main__inputfield" placeholder="Text length(max. 30)" type="number">
+      <div class="main__input">Text Length:<input id="textLength" class="main__inputfield" placeholder="Text length(max. 30)" type="number">
         <div class="input__error"></div>
       </div> 
       <textarea readonly class="main__textarea"></textarea>
       <button class="main__button">Reset Run</button>
-      <button onclick="getRandomWords()" class="main__button">new Text</button>
+      <button id="newTextButton" class="main__button">new Text</button>
       <footer class="main__footer">
         <button class="main-footer__button">Delete Today`s data</button>
         <button class="main-footer__button">Delete all data</button>
@@ -70,6 +70,6 @@
         <p class="letters">z:</p>
       </details>
     </div>
-    <script src="typing.js"></script>
   </body>
+  <script type="module" src="typing.js"></script>
 </html>
