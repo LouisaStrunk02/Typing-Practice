@@ -1,9 +1,15 @@
+var textarea = document.querySelector(".main__textarea");
+var errorMessage = document.querySelector(".input__error");
+
+var textLength = 10;
+const MAXWORDS = 30;
+
 async function getFirstText() {
-  file = "https://random-word-api.herokuapp.com/word?number=" + 10;
-  words = await fetch(file);
-  data = await words.json();
-  text = data.join(" ");
-  document.querySelector(".main__textarea").innerHTML = text;
+  file = "https://random-word-api.herokuapp.com/word?number=" + textLength;
+  response = await fetch(file);
+  words = await response.json();
+  text = words.join(" ");
+  textarea.innerHTML = text;
 }
 
 function hitEnter(event) {
@@ -16,23 +22,22 @@ function hitEnter(event) {
 }
 
 async function getRandomWords() {
-  const MAXWORDS = 30;
   textLength = document.getElementById("textLength").value;
 
   if (textLength > MAXWORDS) {
-    document.querySelector(".input__error").innerHTML = "Max words: 30!";
-    document.querySelector(".main__textarea").innerHTML = "";
+    errorMessage.innerHTML = "Max words: 30!";
+    textarea.innerHTML = "";
   }
   else if (textLength <= 0) {
-    document.querySelector(".input__error").innerHTML = "That`s impossible!";
-    document.querySelector(".main__textarea").innerHTML = "";
+    errorMessage.innerHTML = "That`s impossible!";
+    textarea.innerHTML = "";
   }
   else {
     file = "https://random-word-api.herokuapp.com/word?number=" + textLength;
     words = await fetch(file);
     data = await words.json();
     text = data.join(" ");
-    document.querySelector(".main__textarea").innerHTML = text;
-    document.querySelector(".input__error").innerHTML = "";
+    textarea.innerHTML = text;
+    errorMessage.innerHTML = "";
   }
 }
