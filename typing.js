@@ -1,4 +1,5 @@
 const body = document.getElementsByTagName("body")[0];
+var textarea = document.getElementsByClassName("main__textarea");
 var restText = document.querySelector(".main__textarea--rest");
 var errorMessage = document.querySelector(".input__error");
 var moreDetails = document.getElementsByClassName("stats__moreDetails")[0];
@@ -7,6 +8,7 @@ var incorrectKey = false;
 var pressedEnter = false;
 var newTextGenerated = false;
 var newDay = false;
+var startTimer = false;
 
 var textLength = 10;
 const MAXWORDS = 30;
@@ -78,7 +80,6 @@ async function getRandomText() {
   current.className = "main__textarea--current";
   current.innerHTML = restText.textContent[0];
   restText.textContent = restText.textContent.slice(1);
-  textarea = document.getElementsByClassName("main__textarea");
   textarea[0].insertBefore(current, restText);
   errorMessage.innerHTML = "";
   incorrectKey = false;
@@ -105,6 +106,7 @@ async function getRandomWords() {
   if (textLength > MAXWORDS) {
     errorMessage.innerHTML = "Max words: 30!";
     restText.innerHTML = "";
+    current.innerHTML = "";
   }
   else if (textLength < MINWORDS) {
     errorMessage.innerHTML = "That`s impossible!";
@@ -134,6 +136,14 @@ function setTimer() {
     tempDate = new Date();
     startDate = tempDate;
     startTimer = false;
+  }
+}
+
+function stopTimer() {
+  if (startTimer == false) {
+    tempDate = 0;
+    startDate = 0;
+    startTimer = true;
   }
 }
 
@@ -216,6 +226,9 @@ body.addEventListener("keydown", function checkKey(event) {
 })
 
 function resetRun() {
+  stopTimer();
+  numberOfIncorrectKeys = 0;
+
   var corrects = document.querySelectorAll('.main__textarea--correct');
   var incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
