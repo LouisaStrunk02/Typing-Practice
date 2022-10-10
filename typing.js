@@ -3,7 +3,6 @@ var restText = document.querySelector(".main__textarea--rest");
 var errorMessage = document.querySelector(".input__error");
 
 var moreDetails = document.getElementsByClassName("stats__moreDetails")[0];
-// var moreDetails = document.querySelector(".letters");
 
 var incorrectKey = false;
 var pressedEnter = false;
@@ -28,37 +27,28 @@ var textLength = 10;
 const MAXWORDS = 30;
 const MINWORDS = 1;
 
-var occurenceOfLetters = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
-var absoluteCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
-var relativeCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+if (localStorage.getItem("occurenceOfLetters") == null) {
+  var occurenceOfLetters = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+}
+else if (localStorage.getItem("occurenceOfLetters") != null) {
+  var occurenceOfLetters = JSON.parse(localStorage.getItem("occurenceOfLetters"));
+}
 
-// var occurenceOfLetters = JSON.parse(localStorage.getItem("occurenceOfLetters") ?? 0);
-// var absoluteCorrects = JSON.parse(localStorage.getItem("absoluteLetters") ?? 0);
-// var relativeCorrects = JSON.parse(localStorage.getItem("relativeLetterss") ?? 0);
+if (localStorage.getItem("absoluteCorrects") == null) {
+  var absoluteCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+}
+else if (localStorage.getItem("absoluteCorrects") != null) {
+  var absoluteCorrects = JSON.parse(localStorage.getItem("absoluteCorrects"));
+}
 
-// if (localStorage.getItem("occurenceOfLetters") == null) {
-//   var occurenceOfLetters = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
-// }
-// else if (localStorage.getItem("occurenceOfLetters") != null) {
-//   var occurenceOfLetters = JSON.parse(localStorage.getItem("occurenceOfLetters"));
-// }
-// else if (localStorage.getItem("absoluteCorrects") == null) {
-//   var absoluteCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
-// }
-// else if (localStorage.getItem("absoluteCorrects") != null) {
-//   var absoluteCorrects = JSON.parse(localStorage.getItem("absoluteLetters"));
-// }
-// else if (localStorage.getItem("relativeCorrects") == null) {
-//   var relativeCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
-// }
-// else if (localStorage.getItem("relaticeCorrects") != null) {
-//   var relativeCorrects = JSON.parse(localStorage.getItem("relativeLetterss"));
-// }
+if (localStorage.getItem("relativeCorrects") == null) {
+  var relativeCorrects = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
+}
+else if (localStorage.getItem("relativeCorrects") != null) {
+  var relativeCorrects = JSON.parse(localStorage.getItem("relativeCorrects"));
+}
 
-var strRelativeCorrects = JSON.stringify(relativeCorrects);
-var arrRelativeCorrects = strRelativeCorrects.split(",").join("%" + "<br />").replaceAll(`"`, ``).replaceAll(`{`, ``).replaceAll(`}`, ``);
-moreDetails.innerHTML = arrRelativeCorrects;
-// moreDetails.innerHTML = localStorage.getItem("absoluteLettersArray");
+moreDetails.innerHTML = localStorage.getItem("arrRelativeCorrects");
 
 window.addEventListener("load", function showStats() {
   checkIfNewDay();
@@ -159,14 +149,14 @@ body.addEventListener("keydown", function checkKey(event) {
     setTimer();
     if (event.key == current.textContent[0] && !incorrectKey) {
       occurenceOfLetters[current.innerHTML] += 1;
-      // localStorage.setItem("occuranceOfLetters", JSON.stringify(occurenceOfLetters));
+      localStorage.setItem("occurenceOfLetters", JSON.stringify(occurenceOfLetters));
       absoluteCorrects[current.innerHTML] += 1;
-      // localStorage.setItem("absoluteCorrects", JSON.stringify(absoluteCorrects));
+      localStorage.setItem("absoluteCorrects", JSON.stringify(absoluteCorrects));
       relativeCorrects[current.innerHTML] = Math.round((absoluteCorrects[current.innerHTML] / occurenceOfLetters[current.innerHTML]) * 100);;
-      // localStorage.setItem("relativeCorrects", JSON.stringify(relativeCorrects));
+      localStorage.setItem("relativeCorrects", JSON.stringify(relativeCorrects));
       strRelativeCorrects = JSON.stringify(relativeCorrects);
       arrRelativeCorrects = strRelativeCorrects.split(",").join("%" + "<br />").replaceAll(`"`, ``).replaceAll(`{`, ``).replaceAll(`}`, ``);
-      // localStorage.setItem("arrRelativeCorrects", arrRelativeCorrects);
+      localStorage.setItem("arrRelativeCorrects", arrRelativeCorrects);
       moreDetails.innerHTML = arrRelativeCorrects;
       current.className = "main__textarea--correct";
       current = document.createElement("SPAN");
@@ -182,12 +172,12 @@ body.addEventListener("keydown", function checkKey(event) {
     else if (event.key == current.textContent[0] && incorrectKey) {
 
       occurenceOfLetters[current.innerHTML] += 1;
-      // localStorage.setItem("occurendeOfLetters", JSON.stringify(occurenceOfLetters));
+      localStorage.setItem("occurendeOfLetters", JSON.stringify(occurenceOfLetters));
       relativeCorrects[current.innerHTML] = Math.round((absoluteCorrects[current.innerHTML] / occurenceOfLetters[current.innerHTML]) * 100);
-      // localStorage.setItem("relativeCorrects", JSON.stringify(relativeCorrects));
+      localStorage.setItem("relativeCorrects", JSON.stringify(relativeCorrects));
       strRelativeCorrects = JSON.stringify(relativeCorrects);
       arrRelativeCorrects = strRelativeCorrects.split(",").join("%" + "<br />").replaceAll(`"`, ``).replaceAll(`{`, ``).replaceAll(`}`, ``);
-      // localStorage.setItem("arrRelativeCorrects", arrRelativeCorrects);
+      localStorage.setItem("arrRelativeCorrects", arrRelativeCorrects);
       moreDetails.innerHTML = arrRelativeCorrects;
       numberOfIncorrectKeys += 1;
       current.className = "main__textarea--incorrect";
@@ -320,11 +310,10 @@ function checkIfNewDay() {
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
   if (currentDay > lastDay || currentMonth > lastMonth || currentYear > lastYear) {
-    console.log(">");
     newDay = true;
   }
   else {
-    console.log("=");
+    newDay = false;
   }
   lastDay = currentDay;
   localStorage.setItem("lastDay", lastDay);
