@@ -1,13 +1,16 @@
 const body = document.getElementsByTagName("body")[0];
 var restText = document.querySelector(".main__textarea--rest");
 var errorMessage = document.querySelector(".input__error");
-
 var moreDetails = document.getElementsByClassName("stats__moreDetails")[0];
 
 var incorrectKey = false;
 var pressedEnter = false;
 var newTextGenerated = false;
 var newDay = false;
+
+var textLength = 10;
+const MAXWORDS = 30;
+const MINWORDS = 1;
 
 var numberOfIncorrectKeys = 0;
 var todaysNumberOfTexts = parseInt(localStorage.getItem("todaysNumberOfTexts") ?? 0);
@@ -22,10 +25,6 @@ var lastSetWrongChars = 0;
 var todaysWrongChars = parseInt(localStorage.getItem("todaysWrongChars") ?? 0);
 var totalWrongChars = parseInt(localStorage.getItem("totalWrongChars") ?? 0);
 var todaysTypedChars = parseInt(localStorage.getItem("todaysTypedChars") ?? 0);
-
-var textLength = 10;
-const MAXWORDS = 30;
-const MINWORDS = 1;
 
 if (localStorage.getItem("occurenceOfLetters") == null) {
   var occurenceOfLetters = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0, h: 0, i: 0, j: 0, k: 0, l: 0, m: 0, n: 0, o: 0, p: 0, q: 0, r: 0, s: 0, t: 0, u: 0, v: 0, w: 0, x: 0, y: 0, z: 0, Space: 0 };
@@ -170,7 +169,6 @@ body.addEventListener("keydown", function checkKey(event) {
       incorrectKey = true;
     }
     else if (event.key == current.textContent[0] && incorrectKey) {
-
       occurenceOfLetters[current.innerHTML] += 1;
       localStorage.setItem("occurendeOfLetters", JSON.stringify(occurenceOfLetters));
       relativeCorrects[current.innerHTML] = Math.round((absoluteCorrects[current.innerHTML] / occurenceOfLetters[current.innerHTML]) * 100);
