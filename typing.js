@@ -1,14 +1,14 @@
 import { getWordsFromApi } from "./getWordsFromApi.js";
 
-var textarea = document.querySelector(".main__textarea");
-var inputfield = document.querySelector(".main__inputfield");
-var errorMessage = document.querySelector(".input__error");
-var newTextButton = document.querySelector("#newTextButton");
-
-var textLength = 10;
-const MAXWORDS = 30;
+const textarea = document.querySelector(".main__textarea");
+const inputfield = document.querySelector(".main__inputfield");
+const errorMessage = document.querySelector(".input__error");
+const newTextButton = document.querySelector("#newTextButton");
 
 var text;
+
+const MAXWORDS = 30;
+var textLength = 10;
 
 async function getRandomText() {
   text = await getWordsFromApi(textLength);
