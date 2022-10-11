@@ -1,4 +1,4 @@
-import { getWordsFromApi } from "./getWordsFromApi.js";
+import { getTextFromApi } from "./getTextFromApi.js";
 
 const body = document.getElementsByTagName("body")[0];
 const textarea = document.querySelectorAll(".main__textarea");
@@ -19,8 +19,8 @@ var pressedEnter = false;
 const MAXWORDS = 30;
 var textLength = 10;
 
-async function getRandomText() {
-  text = await getWordsFromApi(textLength);
+async function showText() {
+  text = await getTextFromApi(textLength);
   restText.innerHTML = text;
   current = getCurrentChar();
   restText.innerHTML = restText.innerHTML.slice(1);
@@ -32,15 +32,13 @@ async function getRandomText() {
 }
 
 function checkIfEnter(event) {
-  if (event.key === "Enter") {
-    checkTextLength();
-    inputfield.blur();
-    pressedEnter = true;
-  }
-  else {
+  if (event.key !== "Enter") {
     pressedEnter = false;
     return;
   }
+  checkTextLength();
+  inputfield.blur();
+  pressedEnter = true;
 }
 
 function checkTextLength() {
@@ -70,7 +68,7 @@ function checkTextLength() {
       incorrectKey.remove();
     })
 
-    getRandomText();
+    showText();
   }
 }
 
@@ -116,7 +114,7 @@ function checkKey(event) {
         incorrectKey.remove();
       });
 
-      getRandomText();
+      showText();
     }
   }
 }
@@ -153,7 +151,7 @@ function getCurrentChar() {
   return currentChar;
 }
 
-document.addEventListener("load", getRandomText());
+window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
 newTextButton.addEventListener("click", checkTextLength);
 body.addEventListener("keydown", checkKey);
