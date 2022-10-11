@@ -8,7 +8,7 @@ var newTextButton = document.querySelector("#newTextButton");
 var textLength = 10;
 const MAXWORDS = 30;
 
-var text = await getWordsFromApi(textLength);
+var text;
 
 async function getRandomText() {
   text = await getWordsFromApi(textLength);
