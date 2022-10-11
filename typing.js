@@ -1,4 +1,5 @@
 import { getTextFromApi } from "./getTextFromApi.js";
+import { resetRun } from "./resetRun.js";
 
 const body = document.getElementsByTagName("body")[0];
 const textarea = document.querySelectorAll(".main__textarea");
@@ -8,12 +9,9 @@ const errorMessage = document.querySelector(".input__error");
 const newTextButton = document.querySelector("#newTextButton");
 const resetRunButton = document.querySelector("#resetRunButton");
 
-var text;
-var current;
-var corrects;
-var incorrects;
+let text;
 
-var incorrectKey = false;
+var incorrectChar = false;
 var pressedEnter = false;
 var validInput = true;
 
@@ -23,11 +21,11 @@ var textLength = 10;
 async function showText() {
   text = await getTextFromApi(textLength);
   restText.innerHTML = text;
-  current = getCurrentChar();
+  const current = getCurrentChar();
   restText.innerHTML = restText.innerHTML.slice(1);
   textarea[0].insertBefore(current, restText);
   errorMessage.innerHTML = "";
-  incorrectKey = false;
+  incorrectChar = false;
   newTextButton.blur();
   inputfield.blur();
 }
@@ -60,8 +58,10 @@ function checkTextLength() {
   }
   else {
     validInput = true;
-    corrects = document.querySelectorAll(".main__textarea--correct");
-    incorrects = document.querySelectorAll(".main__textarea--incorrect");
+    const corrects = document.querySelectorAll(".main__textarea--correct");
+    const incorrects = document.querySelectorAll(".main__textarea--incorrect");
+
+    let current = document.querySelector(".main__textarea--current");
 
     current.remove();
 
@@ -87,30 +87,28 @@ function checkKey(event) {
   }
   else {
 
-    if (event.key == current.innerHTML[0] && !incorrectKey) {
+    let current = document.querySelector(".main__textarea--current");
+
+    if (event.key == current.innerHTML[0] && !incorrectChar) {
       current.className = "main__textarea--correct";
       current = getCurrentChar();
       restText.innerHTML = restText.innerHTML.slice(1);
       textarea[0].insertBefore(current, restText);
     }
-    else if (event.key != current.innerHTML[0] && !incorrectKey) {
-      incorrectKey = true;
+    else if (event.key != current.innerHTML[0] && !incorrectChar) {
+      incorrectChar = true;
     }
-    else if (event.key == current.innerHTML[0] && incorrectKey) {
+    else if (event.key == current.innerHTML[0] && incorrectChar) {
       current.className = "main__textarea--incorrect";
       current = getCurrentChar();
       restText.innerHTML = restText.innerHTML.slice(1);
       textarea[0].insertBefore(current, restText);
-      incorrectKey = false;
+      incorrectChar = false;
     }
 
-    if (current.innerHTML == "undefined") {
-      current.innerHTML = 0;
-    }
-
-    if (restText.innerHTML == 0 && current.innerHTML == 0) {
-      corrects = document.querySelectorAll('.main__textarea--correct');
-      incorrects = document.querySelectorAll('.main__textarea--incorrect');
+    if (restText.innerHTML == 0 && current.innerHTML == "undefined") {
+      const corrects = document.querySelectorAll('.main__textarea--correct');
+      const incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
       current.remove();
 
@@ -127,30 +125,7 @@ function checkKey(event) {
   }
 }
 
-function resetRun() {
-  corrects = document.querySelectorAll('.main__textarea--correct');
-  incorrects = document.querySelectorAll('.main__textarea--incorrect');
-
-  current.remove();
-
-  corrects.forEach(correctKey => {
-    correctKey.remove();
-  });
-
-  incorrects.forEach(incorrectKey => {
-    incorrectKey.remove();
-  });
-
-  restText.innerHTML = text;
-  current = getCurrentChar();
-  restText.innerHTML = restText.innerHTML.slice(1);
-  textarea[0].insertBefore(current, restText);
-  errorMessage.innerHTML = "";
-  incorrectKey = false;
-  resetRunButton.blur();
-}
-
-function getCurrentChar() {
+export function getCurrentChar() {
   var currentChar;
   currentChar = document.createElement("SPAN");
   currentChar.className = "main__textarea--current";
@@ -163,4 +138,4 @@ window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
 newTextButton.addEventListener("click", () => checkTextLength());
 body.addEventListener("keydown", (event) => checkKey(event));
-resetRunButton.addEventListener("click", () => resetRun());
+resetRunButton.addEventListener("click", () => resetRun(text, getCurrentChar));
