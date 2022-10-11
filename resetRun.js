@@ -18,6 +18,8 @@ export function resetRun(text, getCurrentChar) {
     incorrectKey.remove();
   });
 
+  // removeCurrentsCorrectsIncorrects(current);
+
   restText.innerHTML = text;
   current = getCurrentChar();
   restText.innerHTML = restText.innerHTML.slice(1);
