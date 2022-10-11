@@ -15,6 +15,7 @@ var incorrects;
 
 var incorrectKey = false;
 var pressedEnter = false;
+var validInput = true;
 
 const MAXWORDS = 30;
 var textLength = 10;
@@ -34,6 +35,7 @@ async function showText() {
 function checkIfEnter(event) {
   if (event.key !== "Enter") {
     pressedEnter = false;
+
     return;
   }
   checkTextLength();
@@ -48,13 +50,16 @@ function checkTextLength() {
     errorMessage.innerHTML = "Max words: 30!";
     restText.innerHTML = "";
     current.innerHTML = "";
+    validInput = false;
   }
   else if (textLength <= 0) {
-    errorMessage.innerHTML = "That`s impossible!";
+    errorMessage.innerHTML = "That`s not possible!";
     restText.innerHTML = "";
     current.innerHTML = "";
+    validInput = false;
   }
   else {
+    validInput = true;
     corrects = document.querySelectorAll(".main__textarea--correct");
     incorrects = document.querySelectorAll(".main__textarea--incorrect");
 
@@ -73,6 +78,9 @@ function checkTextLength() {
 }
 
 function checkKey(event) {
+  if (validInput == false) {
+    return;
+  }
 
   if (inputfield === document.activeElement) {
     event.stopPropagation();
