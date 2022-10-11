@@ -23,7 +23,6 @@ function checkIfEnter(event) {
 
   checkTextLength();
   inputfield.blur();
-
 }
 
 function checkTextLength() {
