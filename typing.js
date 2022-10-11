@@ -161,6 +161,6 @@ function getCurrentChar() {
 
 window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
-newTextButton.addEventListener("click", checkTextLength);
-body.addEventListener("keydown", checkKey);
-resetRunButton.addEventListener("click", resetRun);
+newTextButton.addEventListener("click", () => checkTextLength());
+body.addEventListener("keydown", (event) => checkKey(event));
+resetRunButton.addEventListener("click", () => resetRun());
