@@ -22,15 +22,13 @@ var textLength = 10;
 async function getRandomText() {
   text = await getWordsFromApi(textLength);
   restText.innerHTML = text;
-  current = document.createElement("SPAN");
-  current.className = "main__textarea--current";
-  current.innerHTML = restText.innerHTML[0];
+  current = getCurrentChar();
   restText.innerHTML = restText.innerHTML.slice(1);
   textarea[0].insertBefore(current, restText);
   errorMessage.innerHTML = "";
   incorrectKey = false;
   newTextButton.blur();
-  inputfield.blur(); //
+  inputfield.blur();
 }
 
 function checkIfEnter(event) {
@@ -77,6 +75,7 @@ function checkTextLength() {
 }
 
 function checkKey(event) {
+
   if (inputfield === document.activeElement) {
     event.stopPropagation();
   }
@@ -84,9 +83,7 @@ function checkKey(event) {
 
     if (event.key == current.innerHTML[0] && !incorrectKey) {
       current.className = "main__textarea--correct";
-      current = document.createElement("SPAN");
-      current.className = "main__textarea--current";
-      current.innerHTML = restText.innerHTML[0];
+      current = getCurrentChar();
       restText.innerHTML = restText.innerHTML.slice(1);
       textarea[0].insertBefore(current, restText);
     }
@@ -95,16 +92,17 @@ function checkKey(event) {
     }
     else if (event.key == current.innerHTML[0] && incorrectKey) {
       current.className = "main__textarea--incorrect";
-      current = document.createElement("SPAN");
-      current.className = "main__textarea--current";
-      current.innerHTML = restText.innerHTML[0];
+      current = getCurrentChar();
       restText.innerHTML = restText.innerHTML.slice(1);
       textarea[0].insertBefore(current, restText);
       incorrectKey = false;
     }
 
+    if (current.innerHTML == "undefined") {
+      current.innerHTML = 0;
+    }
+
     if (restText.innerHTML == 0 && current.innerHTML == 0) {
-      console.log("!");
       corrects = document.querySelectorAll('.main__textarea--correct');
       incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
@@ -138,14 +136,21 @@ function resetRun() {
   });
 
   restText.innerHTML = text;
-  current = document.createElement("SPAN");
-  current.className = "main__textarea--current";
-  current.innerHTML = restText.innerHTML[0];
+  current = getCurrentChar();
   restText.innerHTML = restText.innerHTML.slice(1);
   textarea[0].insertBefore(current, restText);
   errorMessage.innerHTML = "";
   incorrectKey = false;
   resetRunButton.blur();
+}
+
+function getCurrentChar() {
+  var currentChar;
+  currentChar = document.createElement("SPAN");
+  currentChar.className = "main__textarea--current";
+  currentChar.innerHTML = restText.innerHTML[0];
+
+  return currentChar;
 }
 
 document.addEventListener("load", getRandomText());
