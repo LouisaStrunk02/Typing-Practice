@@ -58,6 +58,19 @@ body {
   font-size: 300%;
 }
 
+.main__textarea--correct {
+  color: green;
+}
+
+.main__textarea--incorrect {
+  color: red;
+}
+
+.main__textarea--current {
+  text-decoration: underline;
+  background-color: #9c9d9d;
+}
+
 .main__button {
   height: 3%;
   width: 15%;

@@ -12,8 +12,10 @@
       <div class="main__input">Text Length:<input id="textLength" class="main__inputfield" placeholder="Text length(max. 30)" type="number">
         <div class="input__error"></div>
       </div> 
-      <textarea readonly class="main__textarea"></textarea>
-      <button class="main__button">Reset Run</button>
+      <div class="main__textarea">
+        <span class="main__textarea--rest"></span>
+      </div>
+      <button id="resetRunButton" class="main__button">Reset Run</button>
       <button id="newTextButton" class="main__button">new Text</button>
       <footer class="main__footer">
         <button class="main-footer__button">Delete Today`s data</button>
