@@ -43,4 +43,4 @@ function checkTextLength() {
 
 window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
-newTextButton.addEventListener("click", checkTextLength);
+newTextButton.addEventListener("click", () => checkTextLength());
