@@ -17,13 +17,13 @@ async function showText() {
 }
 
 function checkIfEnter(event) {
-  if (event.key === "Enter") {
-    checkTextLength();
-    inputfield.blur();
-  }
-  else {
+  if (event.key !== "Enter") {
     return;
   }
+
+  checkTextLength();
+  inputfield.blur();
+
 }
 
 function checkTextLength() {
