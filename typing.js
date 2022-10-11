@@ -1,4 +1,4 @@
-import { getCurrentChar } from "./getCurrentChar.js";
+import { getCurrentChar, removeCurrentsCorrectsIncorrects } from "./currentHandler.js";
 import { getTextFromApi } from "./getTextFromApi.js";
 // import { resetRun } from "./resetRun.js";
 
@@ -20,11 +20,7 @@ var textLength = 10;
 
 async function showText() {
   text = await getTextFromApi(textLength);
-  restText.innerHTML = text;
-  const current = getCurrentChar();
-  restText.innerHTML = restText.innerHTML.slice(1);
-  textarea[0].insertBefore(current, restText);
-  errorMessage.innerHTML = "";
+  updateTextarea();
   incorrectChar = false;
   newTextButton.blur();
   inputfield.blur();
@@ -77,8 +73,7 @@ function checkKey(event) {
     if (event.key == current.innerHTML[0] && !incorrectChar) {
       current.className = "main__textarea--correct";
       current = getCurrentChar();
-      restText.innerHTML = restText.innerHTML.slice(1);
-      textarea[0].insertBefore(current, restText);
+      setText(current);
     }
     else if (event.key != current.innerHTML[0] && !incorrectChar) {
       incorrectChar = true;
@@ -86,8 +81,7 @@ function checkKey(event) {
     else if (event.key == current.innerHTML[0] && incorrectChar) {
       current.className = "main__textarea--incorrect";
       current = getCurrentChar();
-      restText.innerHTML = restText.innerHTML.slice(1);
-      textarea[0].insertBefore(current, restText);
+      setText(current);
       incorrectChar = false;
     }
 
@@ -101,48 +95,21 @@ function checkKey(event) {
 
 export function resetRun() {
   let current = document.querySelector(".main__textarea--current");
-  // const restText = document.querySelector(".main__textarea--rest");
-  // const textarea = document.querySelectorAll(".main__textarea");
-  // const errorMessage = document.querySelector(".input__error");
-  // const resetRunButton = document.querySelector("#resetRunButton");
-
-  // const corrects = document.querySelectorAll('.main__textarea--correct');
-  // const incorrects = document.querySelectorAll('.main__textarea--incorrect');
-
-  // current.remove();
-
-  // corrects.forEach(correctKey => {
-  //   correctKey.remove();
-  // });
-
-  // incorrects.forEach(incorrectKey => {
-  //   incorrectKey.remove();
-  // });
-
   removeCurrentsCorrectsIncorrects(current);
-
-  restText.innerHTML = text;
-  current = getCurrentChar();
-  restText.innerHTML = restText.innerHTML.slice(1);
-  textarea[0].insertBefore(current, restText);
-  errorMessage.innerHTML = "";
+  updateTextarea();
   resetRunButton.blur();
 }
 
-export function removeCurrentsCorrectsIncorrects(currentChar) {
-  let current = currentChar;
-  const corrects = document.querySelectorAll('.main__textarea--correct');
-  const incorrects = document.querySelectorAll('.main__textarea--incorrect');
+function updateTextarea() {
+  restText.innerHTML = text;
+  const current = getCurrentChar();
+  setText(current);
+}
 
-  current.remove();
-
-  corrects.forEach(correctKey => {
-    correctKey.remove();
-  });
-
-  incorrects.forEach(incorrectKey => {
-    incorrectKey.remove();
-  });
+function setText(current) {
+  restText.innerHTML = restText.innerHTML.slice(1);
+  textarea[0].insertBefore(current, restText);
+  errorMessage.innerHTML = "";
 }
 
 window.addEventListener("load", () => showText());
