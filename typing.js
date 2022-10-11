@@ -1,6 +1,6 @@
 import { getCurrentChar, removeCurrentsCorrectsIncorrects } from "./currentHandler.js";
 import { getTextFromApi } from "./getTextFromApi.js";
-// import { resetRun } from "./resetRun.js";
+import { resetRun } from "./resetRun.js";
 
 const body = document.getElementsByTagName("body")[0];
 const textarea = document.querySelectorAll(".main__textarea");
@@ -93,13 +93,6 @@ function checkKey(event) {
   }
 }
 
-export function resetRun() {
-  let current = document.querySelector(".main__textarea--current");
-  removeCurrentsCorrectsIncorrects(current);
-  updateTextarea();
-  resetRunButton.blur();
-}
-
 function updateTextarea() {
   restText.innerHTML = text;
   const current = getCurrentChar();
@@ -116,4 +109,4 @@ window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
 newTextButton.addEventListener("click", () => checkTextLength());
 body.addEventListener("keydown", (event) => checkKey(event));
-resetRunButton.addEventListener("click", () => resetRun());
+resetRunButton.addEventListener("click", () => resetRun(removeCurrentsCorrectsIncorrects, updateTextarea));
