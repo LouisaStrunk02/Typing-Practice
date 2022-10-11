@@ -1,4 +1,4 @@
-import { getWordsFromApi } from "./getWordsFromApi.js";
+import { getTextFromApi } from "./getTextFromApi.js";
 
 const textarea = document.querySelector(".main__textarea");
 const inputfield = document.querySelector(".main__inputfield");
@@ -10,8 +10,8 @@ var text;
 const MAXWORDS = 30;
 var textLength = 10;
 
-async function getRandomText() {
-  text = await getWordsFromApi(textLength);
+async function showText() {
+  text = await getTextFromApi(textLength);
   textarea.innerHTML = text;
   errorMessage.innerHTML = "";
 }
@@ -38,10 +38,10 @@ function checkTextLength() {
     textarea.innerHTML = "";
   }
   else {
-    getRandomText();
+    showText();
   }
 }
 
-document.addEventListener("load", getRandomText());
+window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
 newTextButton.addEventListener("click", checkTextLength);
