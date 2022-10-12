@@ -2,6 +2,7 @@ import { getCurrentChar, removeCurrent, removeCorrectsIncorrects } from "./curre
 import { getTextFromApi } from "./getTextFromApi.js";
 import { resetRun } from "./resetRun.js";
 import { setText, updateTextarea } from "./textHandler.js";
+import { startTimer, getTime, stopTimer } from "./time.js";
 
 const body = document.getElementsByTagName("body")[0];
 const restText = document.querySelector(".main__textarea--rest");
@@ -14,6 +15,7 @@ let text;
 
 var incorrectChar = false;
 var validInput = true;
+let setTimer = false;
 
 const MAXWORDS = 30;
 var textLength = 10;
@@ -24,6 +26,7 @@ async function showText() {
   incorrectChar = false;
   newTextButton.blur();
   inputfield.blur();
+  setTimer = true;
 }
 
 function checkIfEnter(event) {
@@ -70,6 +73,7 @@ function checkKey(event) {
     event.stopPropagation();
   }
   else {
+    startTimer(setTimer);
     let current = document.querySelector(".main__textarea--current");
 
     if (event.key == current.innerHTML[0] && !incorrectChar) {
@@ -90,6 +94,10 @@ function checkKey(event) {
     if (restText.innerHTML == 0 && current.innerHTML == "undefined") {
       removeCurrent(current);
       removeCorrectsIncorrects();
+
+      stopTimer();
+      getTime();
+
       showText();
     }
   }
