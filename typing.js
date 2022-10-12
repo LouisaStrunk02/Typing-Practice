@@ -4,6 +4,7 @@ import { resetRun } from "./resetRun.js";
 import { setText, updateTextarea } from "./textHandler.js";
 import { startTimer, getTime, stopTimer } from "./time.js";
 import { getNumberOfTexts } from "./sets.js";
+import { getTypedChars } from "./chars.js";
 
 const body = document.getElementsByTagName("body")[0];
 const restText = document.querySelector(".main__textarea--rest");
@@ -98,8 +99,8 @@ function checkKey(event) {
 
       stopTimer();
       getTime();
-
       getNumberOfTexts();
+      getTypedChars(text);
 
       showText();
     }

@@ -1,10 +1,10 @@
-let htmlLastSetTime = document.getElementById("lastSetTime");
-let htmlTodaysTime = document.getElementById("todaysTime");
-let htmlTotalTime = document.getElementById("totalTime");
+const htmlLastSetTime = document.getElementById("lastSetTime");
+const htmlTodaysTime = document.getElementById("todaysTime");
+const htmlTotalTime = document.getElementById("totalTime");
 
 let lastSetTime = 0;
-var todaysTime = parseInt(localStorage.getItem("todaysTime") ?? 0);
-var totalTime = parseInt(localStorage.getItem("totalTime") ?? 0);
+let todaysTime = parseInt(localStorage.getItem("todaysTime") ?? 0);
+let totalTime = parseInt(localStorage.getItem("totalTime") ?? 0);
 
 let startDate = 0;
 let endDate = 0;

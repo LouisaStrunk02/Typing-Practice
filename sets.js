@@ -1,8 +1,8 @@
-let htmlTodaysNumberOfTexts = document.getElementById("todaysSets");
-let htmlTotalNumberOfTexts = document.getElementById("totalSets");
+const htmlTodaysNumberOfTexts = document.getElementById("todaysSets");
+const htmlTotalNumberOfTexts = document.getElementById("totalSets");
 
-var todaysNumberOfTexts = parseInt(localStorage.getItem("todaysNumberOfTexts") ?? 0);
-var totalNumberOfTexts = parseInt(localStorage.getItem("totalNumberOfTexts") ?? 0);
+let todaysNumberOfTexts = parseInt(localStorage.getItem("todaysNumberOfTexts") ?? 0);
+let totalNumberOfTexts = parseInt(localStorage.getItem("totalNumberOfTexts") ?? 0);
 
 export function getNumberOfTexts() {
   todaysNumberOfTexts += 1;
