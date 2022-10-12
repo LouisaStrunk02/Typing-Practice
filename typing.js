@@ -21,7 +21,7 @@ var textLength = 10;
 
 async function showText() {
   text = await getTextFromApi(textLength);
-  updateTextarea(text, restText, getCurrentChar, textarea, errorMessage);
+  updateTextarea(text);
   incorrectChar = false;
   newTextButton.blur();
   inputfield.blur();
@@ -31,6 +31,7 @@ function checkIfEnter(event) {
   if (event.key !== "Enter") {
     return;
   }
+
   checkTextLength();
   inputfield.blur();
 }
@@ -68,13 +69,12 @@ function checkKey(event) {
     event.stopPropagation();
   }
   else {
-
     let current = document.querySelector(".main__textarea--current");
 
     if (event.key == current.innerHTML[0] && !incorrectChar) {
       current.className = "main__textarea--correct";
       current = getCurrentChar();
-      setText(current, restText, textarea, errorMessage);
+      setText(current);
     }
     else if (event.key != current.innerHTML[0] && !incorrectChar) {
       incorrectChar = true;
@@ -82,12 +82,11 @@ function checkKey(event) {
     else if (event.key == current.innerHTML[0] && incorrectChar) {
       current.className = "main__textarea--incorrect";
       current = getCurrentChar();
-      setText(current, restText, textarea, errorMessage);
+      setText(current);
       incorrectChar = false;
     }
 
     if (restText.innerHTML == 0 && current.innerHTML == "undefined") {
-
       removeCurrentsCorrectsIncorrects(current);
       showText();
     }
@@ -98,4 +97,4 @@ window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
 newTextButton.addEventListener("click", () => checkTextLength());
 body.addEventListener("keydown", (event) => checkKey(event));
-resetRunButton.addEventListener("click", () => resetRun(removeCurrentsCorrectsIncorrects, updateTextarea));
+resetRunButton.addEventListener("click", () => resetRun(text, removeCurrentsCorrectsIncorrects, updateTextarea));
