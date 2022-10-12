@@ -1,4 +1,4 @@
-import { getCurrentChar, removeCurrentsCorrectsIncorrects } from "./currentHandler.js";
+import { getCurrentChar, removeCurrent, removeCorrectsIncorrects } from "./currentHandler.js";
 import { getTextFromApi } from "./getTextFromApi.js";
 import { resetRun } from "./resetRun.js";
 import { setText, updateTextarea } from "./textHandler.js";
@@ -44,18 +44,20 @@ function checkTextLength() {
     errorMessage.innerHTML = "Max words: 30!";
     restText.innerHTML = "";
     current.innerHTML = "";
-    validInput = false;
+    removeCorrectsIncorrects();
   }
   else if (textLength <= 0) {
     errorMessage.innerHTML = "That`s not possible!";
     restText.innerHTML = "";
     current.innerHTML = "";
+    removeCorrectsIncorrects();
     validInput = false;
   }
   else {
     validInput = true;
 
-    removeCurrentsCorrectsIncorrects(current);
+    removeCurrent(current);
+    removeCorrectsIncorrects();
     showText();
   }
 }
@@ -87,7 +89,8 @@ function checkKey(event) {
     }
 
     if (restText.innerHTML == 0 && current.innerHTML == "undefined") {
-      removeCurrentsCorrectsIncorrects(current);
+      removeCurrent(current);
+      removeCorrectsIncorrects();
       showText();
     }
   }
@@ -97,4 +100,4 @@ window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
 newTextButton.addEventListener("click", () => checkTextLength());
 body.addEventListener("keydown", (event) => checkKey(event));
-resetRunButton.addEventListener("click", () => resetRun(text, removeCurrentsCorrectsIncorrects, updateTextarea));
+resetRunButton.addEventListener("click", () => resetRun(text, removeCurrent, removeCorrectsIncorrects, updateTextarea));

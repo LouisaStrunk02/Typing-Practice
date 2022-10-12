@@ -7,12 +7,15 @@ export function getCurrentChar() {
   return currentChar;
 }
 
-export function removeCurrentsCorrectsIncorrects(currentChar) {
+export function removeCurrent(currentChar) {
   let current = currentChar;
-  const corrects = document.querySelectorAll('.main__textarea--correct');
-  const incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
   current.remove();
+}
+
+export function removeCorrectsIncorrects() {
+  const corrects = document.querySelectorAll('.main__textarea--correct');
+  const incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
   corrects.forEach(correctKey => {
     correctKey.remove();

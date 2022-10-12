@@ -1,6 +1,7 @@
-export function resetRun(text, removeCurrentsCorrectsIncorrects, updateTextarea) {
+export function resetRun(text, removeCurrent, removeCorrectsIncorrects, updateTextarea) {
   let current = document.querySelector(".main__textarea--current");
-  removeCurrentsCorrectsIncorrects(current);
+  removeCurrent(current);
+  removeCorrectsIncorrects();
   updateTextarea(text);
   resetRunButton.blur();
 }
