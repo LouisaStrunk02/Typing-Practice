@@ -1,6 +1,7 @@
 import { getCurrentChar, removeCurrentsCorrectsIncorrects } from "./currentHandler.js";
 import { getTextFromApi } from "./getTextFromApi.js";
 import { resetRun } from "./resetRun.js";
+import { setText, updateTextarea } from "./textHandler.js";
 
 const body = document.getElementsByTagName("body")[0];
 const textarea = document.querySelectorAll(".main__textarea");
@@ -20,7 +21,7 @@ var textLength = 10;
 
 async function showText() {
   text = await getTextFromApi(textLength);
-  updateTextarea();
+  updateTextarea(text, restText, getCurrentChar, textarea, errorMessage);
   incorrectChar = false;
   newTextButton.blur();
   inputfield.blur();
@@ -73,7 +74,7 @@ function checkKey(event) {
     if (event.key == current.innerHTML[0] && !incorrectChar) {
       current.className = "main__textarea--correct";
       current = getCurrentChar();
-      setText(current);
+      setText(current, restText, textarea, errorMessage);
     }
     else if (event.key != current.innerHTML[0] && !incorrectChar) {
       incorrectChar = true;
@@ -81,7 +82,7 @@ function checkKey(event) {
     else if (event.key == current.innerHTML[0] && incorrectChar) {
       current.className = "main__textarea--incorrect";
       current = getCurrentChar();
-      setText(current);
+      setText(current, restText, textarea, errorMessage);
       incorrectChar = false;
     }
 
@@ -91,18 +92,6 @@ function checkKey(event) {
       showText();
     }
   }
-}
-
-function updateTextarea() {
-  restText.innerHTML = text;
-  const current = getCurrentChar();
-  setText(current);
-}
-
-function setText(current) {
-  restText.innerHTML = restText.innerHTML.slice(1);
-  textarea[0].insertBefore(current, restText);
-  errorMessage.innerHTML = "";
 }
 
 window.addEventListener("load", () => showText());
