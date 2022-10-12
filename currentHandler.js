@@ -7,16 +7,28 @@ export function getCurrentChar() {
   return currentChar;
 }
 
-export function removeCurrentsCorrectsIncorrects(currentChar) {
+export function removeAllChars(currentChar) {
+  removeCurrent(currentChar);
+  removeCorrects();
+  removeIncorrects();
+}
+
+function removeCurrent(currentChar) {
   let current = currentChar;
-  const corrects = document.querySelectorAll('.main__textarea--correct');
-  const incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
   current.remove();
+}
+
+function removeCorrects() {
+  const corrects = document.querySelectorAll('.main__textarea--correct');
 
   corrects.forEach(correctKey => {
     correctKey.remove();
   });
+}
+
+function removeIncorrects() {
+  const incorrects = document.querySelectorAll('.main__textarea--incorrect');
 
   incorrects.forEach(incorrectKey => {
     incorrectKey.remove();

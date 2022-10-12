@@ -1,4 +1,4 @@
-import { getCurrentChar, removeCurrentsCorrectsIncorrects } from "./currentHandler.js";
+import { getCurrentChar, removeAllChars } from "./currentHandler.js";
 import { getTextFromApi } from "./getTextFromApi.js";
 import { resetRun } from "./resetRun.js";
 import { setText, updateTextarea } from "./textHandler.js";
@@ -55,7 +55,7 @@ function checkTextLength() {
   else {
     validInput = true;
 
-    removeCurrentsCorrectsIncorrects(current);
+    removeAllChars(current);
     showText();
   }
 }
@@ -69,10 +69,10 @@ function checkKey(event) {
     event.stopPropagation();
   }
   else {
+    let current = document.querySelector(".main__textarea--current");
     const typedCorrectlyOnFirstTry = event.key == current.innerHTML[0] && !incorrectChar;
     const typedIncorrectlyOnFirstTry = event.key != current.innerHTML[0] && !incorrectChar;
     const typedCorrctlyAfterSeveralTries = event.key == current.innerHTML[0] && incorrectChar;
-    let current = document.querySelector(".main__textarea--current");
 
     if (typedCorrectlyOnFirstTry) {
       current.className = "main__textarea--correct";
@@ -92,7 +92,7 @@ function checkKey(event) {
     const isEndOfText = restText.innerHTML == 0 && current.innerHTML == "undefined";
 
     if (isEndOfText) {
-      removeCurrentsCorrectsIncorrects(current);
+      removeAllChars(current);
       showText();
     }
   }
@@ -102,4 +102,4 @@ window.addEventListener("load", () => showText());
 inputfield.addEventListener("keypress", (event) => checkIfEnter(event));
 newTextButton.addEventListener("click", () => checkTextLength());
 body.addEventListener("keydown", (event) => checkKey(event));
-resetRunButton.addEventListener("click", () => resetRun(text, removeCurrentsCorrectsIncorrects, updateTextarea));
+resetRunButton.addEventListener("click", () => resetRun(text, removeAllChars, updateTextarea));
