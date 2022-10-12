@@ -69,24 +69,29 @@ function checkKey(event) {
     event.stopPropagation();
   }
   else {
+    const typedCorrectlyOnFirstTry = event.key == current.innerHTML[0] && !incorrectChar;
+    const typedIncorrectlyOnFirstTry = event.key != current.innerHTML[0] && !incorrectChar;
+    const typedCorrctlyAfterSeveralTries = event.key == current.innerHTML[0] && incorrectChar;
     let current = document.querySelector(".main__textarea--current");
 
-    if (event.key == current.innerHTML[0] && !incorrectChar) {
+    if (typedCorrectlyOnFirstTry) {
       current.className = "main__textarea--correct";
       current = getCurrentChar();
       setText(current);
     }
-    else if (event.key != current.innerHTML[0] && !incorrectChar) {
+    else if (typedIncorrectlyOnFirstTry) {
       incorrectChar = true;
     }
-    else if (event.key == current.innerHTML[0] && incorrectChar) {
+    else if (typedCorrctlyAfterSeveralTries) {
       current.className = "main__textarea--incorrect";
       current = getCurrentChar();
       setText(current);
       incorrectChar = false;
     }
 
-    if (restText.innerHTML == 0 && current.innerHTML == "undefined") {
+    const isEndOfText = restText.innerHTML == 0 && current.innerHTML == "undefined";
+
+    if (isEndOfText) {
       removeCurrentsCorrectsIncorrects(current);
       showText();
     }
