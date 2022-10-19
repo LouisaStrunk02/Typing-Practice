@@ -8,15 +8,13 @@ export function getCurrentChar() {
 }
 
 export function removeAllChars(currentChar) {
-  removeCurrent(currentChar);
+  removeCurrentChar(currentChar);
   removeCorrects();
   removeIncorrects();
 }
 
-function removeCurrent(currentChar) {
-  let current = currentChar;
-
-  current.remove();
+function removeCurrentChar(currentChar) {
+  currentChar.remove();
 }
 
 function removeCorrects() {

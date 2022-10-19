@@ -1,7 +1,7 @@
 import { getCurrentChar, removeAllChars } from "./currentHandler.js";
 import { getTextFromApi } from "./getTextFromApi.js";
 import { resetRun } from "./resetRun.js";
-import { setText, updateTextarea } from "./textHandler.js";
+import { removeCurrentCharFromRestText, updateTextarea } from "./textHandler.js";
 
 const body = document.getElementsByTagName("body")[0];
 const textarea = document.querySelectorAll(".main__textarea");
@@ -14,7 +14,7 @@ const resetRunButton = document.querySelector("#resetRunButton");
 let text;
 
 var incorrectChar = false;
-var validInput = true;
+var textLengthInValidArea = true;
 
 const MAXWORDS = 30;
 var textLength = 10;
@@ -37,31 +37,31 @@ function checkIfEnter(event) {
 }
 
 function checkTextLength() {
-  let current = document.querySelector(".main__textarea--current");
+  let currentChar = document.querySelector(".main__textarea--current");
   textLength = inputfield.value;
 
   if (textLength > MAXWORDS) {
     errorMessage.innerHTML = "Max words: 30!";
     restText.innerHTML = "";
-    current.innerHTML = "";
-    validInput = false;
+    currentChar.innerHTML = "";
+    textLengthInValidArea = false;
   }
   else if (textLength <= 0) {
     errorMessage.innerHTML = "That`s not possible!";
     restText.innerHTML = "";
-    current.innerHTML = "";
-    validInput = false;
+    currentChar.innerHTML = "";
+    textLengthInValidArea = false;
   }
   else {
-    validInput = true;
+    textLengthInValidArea = true;
 
-    removeAllChars(current);
+    removeAllChars(currentChar);
     showText();
   }
 }
 
 function checkKey(event) {
-  if (validInput == false) {
+  if (textLengthInValidArea == false) {
     return;
   }
 
@@ -69,30 +69,30 @@ function checkKey(event) {
     event.stopPropagation();
   }
   else {
-    let current = document.querySelector(".main__textarea--current");
-    const typedCorrectlyOnFirstTry = event.key == current.innerHTML[0] && !incorrectChar;
-    const typedIncorrectlyOnFirstTry = event.key != current.innerHTML[0] && !incorrectChar;
-    const typedCorrctlyAfterSeveralTries = event.key == current.innerHTML[0] && incorrectChar;
+    let currentChar = document.querySelector(".main__textarea--current");
+    const typedCorrectlyOnFirstTry = event.key == currentChar.innerHTML[0] && !incorrectChar;
+    const typedIncorrectlyOnFirstTry = event.key != currentChar.innerHTML[0] && !incorrectChar;
+    const typedCorrctlyAfterSeveralTries = event.key == currentChar.innerHTML[0] && incorrectChar;
 
     if (typedCorrectlyOnFirstTry) {
-      current.className = "main__textarea--correct";
-      current = getCurrentChar();
-      setText(current);
+      currentChar.className = "main__textarea--correct";
+      currentChar = getCurrentChar();
+      removeCurrentCharFromRestText(currentChar);
     }
     else if (typedIncorrectlyOnFirstTry) {
       incorrectChar = true;
     }
     else if (typedCorrctlyAfterSeveralTries) {
-      current.className = "main__textarea--incorrect";
-      current = getCurrentChar();
-      setText(current);
+      currentChar.className = "main__textarea--incorrect";
+      currentChar = getCurrentChar();
+      removeCurrentCharFromRestText(currentChar);
       incorrectChar = false;
     }
 
-    const isEndOfText = restText.innerHTML == 0 && current.innerHTML == "undefined";
+    const isEndOfText = restText.innerHTML == 0 && currentChar.innerHTML == "undefined";
 
     if (isEndOfText) {
-      removeAllChars(current);
+      removeAllChars(currentChar);
       showText();
     }
   }
