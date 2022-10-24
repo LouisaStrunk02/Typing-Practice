@@ -4,7 +4,6 @@ import { resetRun } from "./resetRun.js";
 import { removeCurrentCharFromRestText, updateTextarea } from "./textHandler.js";
 
 const body = document.getElementsByTagName("body")[0];
-const textarea = document.querySelectorAll(".main__textarea");
 const restText = document.querySelector(".main__textarea--rest");
 const inputfield = document.querySelector(".main__inputfield");
 const errorMessage = document.querySelector(".input__error");
