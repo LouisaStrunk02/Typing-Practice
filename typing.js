@@ -65,7 +65,8 @@ function checkKey(event) {
     return;
   }
 
-  if (inputfield === document.activeElement) {
+  inputfieldIsClicked = inputfield === document.activeElement
+  if (inputfieldIsClicked) {
     event.stopPropagation();
   }
   else {
